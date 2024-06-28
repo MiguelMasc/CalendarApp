@@ -12,7 +12,11 @@
     "@radix-ui/react-slot": "^1.1.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+<<<<<<< HEAD
     "lucide-react": "^0.396.0",
+=======
+    "lucide-react": "^0.399.0",
+>>>>>>> 9781a17c3d793aa6bb19022d4b11a42929f6176c
     "next": "14.2.4",
     "react": "^18",
     "react-dom": "^18",
@@ -20,7 +24,10 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+<<<<<<< HEAD
     "@trunkio/launcher": "^1.3.1",
+=======
+>>>>>>> 9781a17c3d793aa6bb19022d4b11a42929f6176c
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
