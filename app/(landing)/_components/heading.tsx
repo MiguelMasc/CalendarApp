@@ -28,7 +28,7 @@ export const Heading = () => {
       )}
       {isAuthenticated && !isLoading && (
         <Button variant="blue"asChild>
-          <Link href="/documents">
+          <Link href="/calendar">
             Enter calendarApp
             <ArrowRight className="h-4 w-4 ml-2"/>
           </Link>

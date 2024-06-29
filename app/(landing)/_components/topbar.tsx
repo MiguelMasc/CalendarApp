@@ -34,7 +34,7 @@ const Topbar = () => {
         {isAuthenticated && !isLoading && (
           <>
             <Button variant="blueghost" size="sm" asChild>
-              <Link href="/documents">
+              <Link href="/calendar">
                 Enter calendarApp
               </Link>
             </Button>

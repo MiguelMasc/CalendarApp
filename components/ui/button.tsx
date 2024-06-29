@@ -20,10 +20,12 @@ const buttonVariants = cva(
         blueghost: "dark:text-blue-300 text-blue-700 hover:bg-accent dark:hover:text-blue-300 hover:text-blue-700",
         link: "text-primary underline-offset-4 hover:underline",
         purple: "text-white bg-indigo-500",
-        blue: "dark:bg-blue-300 bg-blue-700 text-background"
+        blue: "dark:bg-blue-300 bg-blue-700 text-background",
+        round: "text-blue-700 dark:text-blue-300 rounded-full hover:bg-accent",
       },
       size: {
         default: "h-10 px-4 py-2",
+        xs:"h-5 px-1 py-4",
         sm: "h-9 rounded-md px-3",
         lg: "h-11 rounded-md px-8",
         icon: "h-10 w-10",
