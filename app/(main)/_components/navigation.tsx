@@ -5,89 +5,52 @@ import { ChevronsLeft, MenuIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { ElementRef, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
+import { Calendar } from "@/components/ui/calendar"
 
-const Navigation = () => {
-  const pathname = usePathname();
-  const isMobile = useMediaQuery("(max-width: 768px)");
+type NavBarProps = {
+  isNavCollapsed: boolean;
+  viewDate: Date;
+  setViewDate: (inView: Date | undefined) => void;
+};
 
-  const isResizingRef = useRef(false);
-  const sidebarRef = useRef<ElementRef<"aside">>(null);
-  const navbarRef = useRef<ElementRef<"div">>(null);
+const Navigation = ({isNavCollapsed, viewDate, setViewDate}: NavBarProps) => {
 
-  const [isResetting, setIsResetting] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(isMobile);
+  // const pathname = usePathname();
+  // const isMobile = useMediaQuery("(max-width: 768px)");
 
-  useEffect(() => {
-    if (isMobile) {
-      collapse();
-    } else {
-      resetWidth();
-    }
-  }, [isMobile]);
+  // const isResizingRef = useRef(false);
+  // const sidebarRef = useRef<ElementRef<"aside">>(null);
+  // const navbarRef = useRef<ElementRef<"div">>(null);
 
-  useEffect(() => {
-    if (isMobile) {
-      collapse();
-    }
-  }, [pathname, isMobile])
-  const handleMouseDown = (
-    event: React.MouseEvent<HTMLDivElement, MouseEvent>
-  ) => {
-    event.preventDefault();
-    event.stopPropagation();
+  // const [isResetting, setIsResetting] = useState(false);
 
-    isResizingRef.current = true;
-    document.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseup", handleMouseUp);
-  }
-  const handleMouseMove = (event: MouseEvent) => {
-    if (!isResizingRef.current) return;
-    let newWidth = event.clientX;
+  // useEffect(() => {
+  //   if (isMobile) {
+  //     collapse();
+  //   } else {
+  //     resetWidth();
+  //   }
+  // }, [isMobile]);
 
-    if (newWidth < 240) newWidth = 240;
-    if (newWidth > 480) newWidth = 480;
+  // useEffect(() => {
+  //   if (isMobile) {
+  //     collapse();
+  //   }
+  // }, [pathname, isMobile])
 
-    if (sidebarRef.current && navbarRef.current) {
-      sidebarRef.current.style.width = `${newWidth}px`;
-      navbarRef.current.style.setProperty("left", `${newWidth}px`)
-      navbarRef.current.style.setProperty("width", `calc(100%-${newWidth}px)`);
-
-    }
-  }
-
-  const handleMouseUp = () => {
-    isResizingRef.current = false;
-    document.removeEventListener("mousemove", handleMouseMove);
-    document.removeEventListener("mouseup", handleMouseUp);
-  }
-
-  const resetWidth = () => {
-    if (sidebarRef.current && navbarRef.current) {
-      setIsCollapsed(false);
-      setIsResetting(true);
-
-      sidebarRef.current.style.width = isMobile ? "100%" : "240px";
-      navbarRef.current.style.setProperty("width", isMobile ? "0" : "calc(100%-240px)");
-      navbarRef.current.style.setProperty("left", isMobile ? "100%" : "240px");
-      setTimeout(() => setIsResetting(false), 300);
-    }
-  }
-
-  const collapse = () => {
-    if (sidebarRef.current && navbarRef.current) {
-      setIsCollapsed(true);
-      setIsResetting(true);
-
-      sidebarRef.current.style.width = "0";
-      navbarRef.current.style.setProperty("width", "100%");
-      navbarRef.current.style.setProperty("left", "0");
-      setTimeout(() => setIsResetting(false), 300);
-    }
-  }
   return ( 
-  <div>
-    <p>Navbar</p>
-  </div>
+    <>
+      {!isNavCollapsed && (
+        <div className="max-w-[300px] p-2">
+          <Calendar
+            mode="single"
+            selected={viewDate}
+            onSelect={(date) => setViewDate(date)}
+            className="rounded-md border max-w-full"
+          />
+        </div>
+      )}
+    </>
    )
 }
  

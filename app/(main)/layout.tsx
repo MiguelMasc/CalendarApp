@@ -5,6 +5,7 @@ import { useConvexAuth } from "convex/react";
 import { redirect } from "next/navigation";
 import Navigation from "./_components/navigation";
 import TopBar from "./_components/topbar";
+import { useState } from "react";
 
 
 const MainLayout = ({
@@ -12,8 +13,14 @@ const MainLayout = ({
 }: {
   children: React.ReactNode;
 }) => {
-
+ 
   const { isAuthenticated, isLoading} = useConvexAuth();
+  const [isNavCollapsed, setIsNavCollapsed] = useState(false);
+  const [currDate, setCurrDate] = useState(new Date());
+  const [viewDate, setViewDate] = useState(new Date());
+
+
+
 
   if(isLoading) {
     return (
@@ -28,11 +35,29 @@ const MainLayout = ({
   }
 
   return ( 
-    <div>
-      <TopBar />
+    <div className="h-full">
+      <TopBar 
+        isNavCollapsed={isNavCollapsed}
+        setIsNavCollapsed={setIsNavCollapsed}
+        viewDate={viewDate}
+        setViewDate={(date) => {
+          if (date) {
+            setViewDate(date)
+          }
+        }}
+      />
+      
       <div className="h-full flex">
         <main className="flex h-full overflow-y-auto">
-          <Navigation />
+          <Navigation 
+            isNavCollapsed={isNavCollapsed}
+            viewDate={viewDate}
+            setViewDate={(date) => {
+              if (date) {
+                setViewDate(date)
+              }
+            }}
+          />
           {children}
         </main>
       </div>
