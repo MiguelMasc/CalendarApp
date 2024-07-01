@@ -9,7 +9,7 @@ const Landinglayout = ({
   return ( 
 
     <div className="h-full">
-      <main className="h-full pt-40">
+      <main className="h-full pt-28">
         <Topbar/>
         {children}
       </main>

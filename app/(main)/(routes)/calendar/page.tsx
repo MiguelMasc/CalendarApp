@@ -12,6 +12,7 @@ import {
   isSameDay,
   addMonths,
   subMonths,
+  isThisMonth,
 } from "date-fns";
 import { useCalendar } from "../../(context)/calendarContext";
 
@@ -23,7 +24,7 @@ const CalendarPage = () => {
     return (
       <div className="flex">
         {daysOfWeek.map((day, index) => (
-          <div key={index} className="p-2 text-center font-semibold text-xs border w-full">
+          <div key={index} className="p-2 font-semibold text-xs border w-full">
             {day}
           </div>
         ))}
@@ -53,24 +54,24 @@ const CalendarPage = () => {
           days.push(
             <div
               key={date.toString()}
-              className={`border p-2 text-center font-semibold text-blue-700 dark:text-blue-300 w-full ${
+              className={`h-full flex border p-2 text-center font-semibold text-blue-700 dark:text-blue-300 w-full ${
                 !isSameMonth(date, viewDate) ? "opacity-60" : ""
               } ${isSameDay(date, new Date()) ? "bg-accent-foreground text-blue-300 dark:text-blue-700" : ""}`}
             >
-              {format(date, "d")}
+              { ((format(date, "d") === "1") && !isThisMonth(date))? format(date,"LLL d"):format(date, "d") }
             </div>
           );
         }
       }
-      rows.push(<div key={i} className="flex">{days}</div>);
+      rows.push(<div key={i} className="flex flex-1">{days}</div>);
     }
   
-    return <div>{rows}</div>;
+    return <div className="flex flex-col flex-1">{rows}</div>;
   };
 
 
   return (
-    <div className="border rounded-md w-full h-screen">
+    <div className="border rounded-md w-full h-[calc(100vh-90px)] flex flex-col">
       {weekDays()}
       {generateDaysGrid()}
     </div>
