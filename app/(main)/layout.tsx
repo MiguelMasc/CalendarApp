@@ -33,7 +33,7 @@ const MainLayout = ({
       <div className="h-screen">
         <TopBar />
         <div className="flex">
-          <main className="flex overflow-y-auto w-full border">
+          <main className="flex overflow-y-hidden w-full border">
             {/* <Navigation /> */}
             {children}
           </main>
