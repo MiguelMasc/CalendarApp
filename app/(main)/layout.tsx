@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import Navigation from "./_components/navigation";
 import TopBar from "./_components/topbar";
 import { useState } from "react";
+import { CalendarProvider } from "./(context)/calendarContext";
 
 
 const MainLayout = ({
@@ -15,12 +16,6 @@ const MainLayout = ({
 }) => {
  
   const { isAuthenticated, isLoading} = useConvexAuth();
-  const [isNavCollapsed, setIsNavCollapsed] = useState(false);
-  const [currDate, setCurrDate] = useState(new Date());
-  const [viewDate, setViewDate] = useState(new Date());
-
-
-
 
   if(isLoading) {
     return (
@@ -33,35 +28,18 @@ const MainLayout = ({
   if (!isAuthenticated) {
     return redirect("/")
   }
-
   return ( 
-    <div className="h-full">
-      <TopBar 
-        isNavCollapsed={isNavCollapsed}
-        setIsNavCollapsed={setIsNavCollapsed}
-        viewDate={viewDate}
-        setViewDate={(date) => {
-          if (date) {
-            setViewDate(date)
-          }
-        }}
-      />
-      
-      <div className="h-full flex">
-        <main className="flex h-full overflow-y-auto">
-          <Navigation 
-            isNavCollapsed={isNavCollapsed}
-            viewDate={viewDate}
-            setViewDate={(date) => {
-              if (date) {
-                setViewDate(date)
-              }
-            }}
-          />
-          {children}
-        </main>
+    <CalendarProvider>
+      <div className="h-screen">
+        <TopBar />
+        <div className="flex">
+          <main className="flex overflow-y-auto w-full border">
+            {/* <Navigation /> */}
+            {children}
+          </main>
+        </div>
       </div>
-    </div>
+    </CalendarProvider>
    );
 }
  

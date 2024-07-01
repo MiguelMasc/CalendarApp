@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { ElementRef, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
 import { Calendar } from "@/components/ui/calendar"
+import { useCalendar } from "../(context)/calendarContext";
 
 type NavBarProps = {
   isNavCollapsed: boolean;
@@ -13,7 +14,9 @@ type NavBarProps = {
   setViewDate: (inView: Date | undefined) => void;
 };
 
-const Navigation = ({isNavCollapsed, viewDate, setViewDate}: NavBarProps) => {
+const Navigation = () => {
+
+  const {isNavCollapsed, viewDate, setViewDate} = useCalendar();
 
   // const pathname = usePathname();
   // const isMobile = useMediaQuery("(max-width: 768px)");
@@ -41,12 +44,15 @@ const Navigation = ({isNavCollapsed, viewDate, setViewDate}: NavBarProps) => {
   return ( 
     <>
       {!isNavCollapsed && (
-        <div className="max-w-[300px] p-2">
+        <div className="h-full">
           <Calendar
             mode="single"
             selected={viewDate}
-            onSelect={(date) => setViewDate(date)}
-            className="rounded-md border max-w-full"
+            onSelect={(date) => {
+              if (date) {
+                setViewDate(date);
+              }
+            }}
           />
         </div>
       )}
