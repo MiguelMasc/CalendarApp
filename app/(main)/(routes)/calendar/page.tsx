@@ -13,6 +13,7 @@ import { api } from "@/convex/_generated/api";
 
 import weekDays from "../../_components/weekdays";
 import EventPopover from "../../_components/eventpopover";
+import { Divide } from "lucide-react";
 
 
 const CalendarPage = () => {
@@ -49,16 +50,16 @@ const CalendarPage = () => {
         if (date) {
           const events = GetDayEvents(date);
           days.push( 
-            <EventPopover             
-              key={date.toString()}
-              date={date}
-              index={index}
-              events={events} />
+              <EventPopover             
+                key={date.toString()}
+                date={date}
+                index={index}
+                events={events}/>
           );
         }
       }
       rows.push(
-        <div key={i} className="flex flex-1 max-h-[calc((100vh)/6)] h-full overflow-y-hidden">
+        <div key={i} className="flex flex-1 max-h-[calc((100vh)/6)] h-full overflow-y-hidden w-full">
           {days}
         </div>
       );

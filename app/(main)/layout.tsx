@@ -31,7 +31,7 @@ const MainLayout = ({
 
   return ( 
     <CalendarProvider>
-      <div className="h-screen">
+      <div className="h-[calc(100%-30px)]] max-h-screen">
         <TopBar />
         <div className="flex h-full">
           <Navigation />

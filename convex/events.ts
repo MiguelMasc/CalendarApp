@@ -31,9 +31,9 @@ export const getByDay = query({
         q 
           .eq("userId", userId)
           .eq("date", args.date)
-    )
-    .order("desc")
-    .collect();
+      )
+      .order("desc")
+      .collect();
 
     return events;
   }

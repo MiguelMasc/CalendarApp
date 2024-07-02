@@ -33,11 +33,24 @@ const TopBar = () => {
   return (
     <div className="z-50 bg-background top-0 items-center justify-between flex w-full p-6">
       <div className="flex items-center justify-center gap-x-5">  
-        <Button variant="round" onClick={() => {}}> 
-          <MenuIcon onClick={toggleNav}/>
+        <Button 
+          variant="round" 
+          onClick={toggleNav}
+          className="md:flex hidden"
+        > 
+          <MenuIcon/>
         </Button>
-        <Button variant="ghost" className="hover:bg-transparent"><Logo/></Button>
-        <Button className="text-blue-700 dark:text-blue-300" variant="outline" onClick={resetView}>
+        <Button 
+          variant="ghost" 
+          className="hover:bg-transparent hidden md:flex "
+        >
+          <Logo/>
+        </Button>
+        <Button 
+          className="text-blue-700 dark:text-blue-300" 
+          variant="outline" 
+          onClick={resetView}
+        >
           Today
         </Button>
         <Button variant="blueghost" size="xs">

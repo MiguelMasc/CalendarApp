@@ -5,7 +5,7 @@ const weekDays = () => {
   return (
     <div className="flex">
       {daysOfWeek.map((day, index) => (
-        <div key={index} className="p-2 font-semibold text-xs border w-[calc((100vw))]">
+        <div key={index} className="p-2 font-semibold text-xs border w-full">
           {day}
         </div>
       ))}

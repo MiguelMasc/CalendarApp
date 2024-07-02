@@ -17,6 +17,7 @@ export default defineSchema({
   .index("by_date", ["userId", "date"]),
 
   calendars: defineTable({
+    name: v.string(),
     userId: v.string(),
   })
   .index("by_userId", ["userId"])
