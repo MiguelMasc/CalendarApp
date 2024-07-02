@@ -17,31 +17,49 @@ import { useCalendar } from "../../(context)/calendarContext";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { FormInput } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+
 
 const CalendarPage = () => {
   const { viewDate, setViewDate } = useCalendar();
-  const [openPopoverIndex, setOpenPopoverIndex] = useState(null);
+  const [openPopoverIndex, setOpenPopoverIndex] = useState(-1);
 
-  // const [eventDate, setEventDate] = useState();
-  // const [eventName, setEventName] = useState();
-  // const [eventDesc, setEventDesc] = useState();
+  const [eventName, setEventName] = useState("");
+  const [eventLocation, setEventLocation] = useState("");
+  const [eventDesc, setEventDesc] = useState("Notes");
+  const [eventDate, setEventDate] = useState("");
+  const [eventAllDay, setEventAllDay] = useState(true);
 
   const create = useMutation(api.events.create);
 
-  const newEvent = (date: Date) => {
-    console.log('new event');
-    const promise = create({name: "Untitled", date: date.toDateString(), hours: "All Day"})
+  const newEvent = () => {
+    const promise = create({
+      name: eventName ? eventName : "Untitled", 
+      date: eventDate, 
+      allDay: eventAllDay, 
+      location: eventLocation,
+      desc: eventDesc});
   };
 
-  const handleOpenPopover = (index: number) => {
+  const handleOpenPopover = (date: string, index: number) => {
     setOpenPopoverIndex(index);
+    setEventDate(date);
   };
 
   const handleClosePopover = () => {
-    setOpenPopoverIndex(null);
+    setOpenPopoverIndex(-1);
+    setEventName("");
+    setEventDesc("");
   };
+
+  function GetDayEvents(date: Date) {
+    const events = useQuery(api.events.getByDay, {date: format(date, "EEEE LLL dd y")});
+    return events;
+  }
 
   const weekDays = () => {
     const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -77,9 +95,9 @@ const CalendarPage = () => {
         const index = i * 7 +j;
 
         if (date) {
-          const events = useQuery(api.events.getByDay, {date: date.toDateString()});
+          const events = GetDayEvents(date);
           days.push(
-            <Popover key={date.toString()} onOpenChange={(isOpen) => isOpen ? handleOpenPopover(index) : handleClosePopover()}>
+            <Popover key={date.toString()} onOpenChange={(isOpen) => isOpen ? handleOpenPopover(format(date, "EEEE LLL dd y"), index) : handleClosePopover()}>
               <PopoverTrigger asChild>
                 <div
                   className={`h-full w-[calc((100vw/7))] flex border flex-col p-2 text-center font-semibold text-blue-700 dark:text-blue-300 ${
@@ -89,20 +107,47 @@ const CalendarPage = () => {
                   {format(date, "d") === "1" && !isThisMonth(date)
                     ? format(date, "LLL d")
                     : format(date, "d")}
-                  <div className="overflow-y-auto flex-1 mt-1">
-                    {openPopoverIndex === index 
-                      ? "Popover open" 
+                  <div className="flex-1 mt-1  text-sm overflow-y-auto no-scrollbar">
+                    <div className="rounded-md text-background m-1 bg-blue-700 dark:bg-blue-300 shadow-md">
+                      {openPopoverIndex === index 
+                      ? "New Event" 
                       : ""}
+                    </div>
                     {events?.map((event) => (
-                      <p key={event._id}>{event.name}</p>
+                      <div key={event._id} className="rounded-md text-background m-1 bg-blue-700 dark:bg-blue-300 shadow-md">{event.name}</div>
                     ))}
                   </div>
                 </div>
               </PopoverTrigger>
               <PopoverContent className="shadow-lg">
-                <div className="text-blue-700 dark:text-blue-300 font-semibold rounded-md">
-                  <p>{format(date, "PP")}</p>
-                  <Button variant="blue" onClick={() => newEvent(date)}>Add Event</Button>
+                <div className="font-normal rounded-md flex flex-col">
+                  <Input 
+                    type="name" 
+                    placeholder="Untitled" 
+                    className="mt-2 mb-2 font-normal" 
+                    onChange={(e) => setEventName(e.target.value)}/>
+                  <Input 
+                    type="location" 
+                    placeholder="Location" 
+                    className="mt-2 mb-2 font-normal" 
+                    onChange={(e) => setEventLocation(e.target.value)}/>
+                  <div className="flex flex-row items-center justify-between ">
+                    <Label htmlFor="all-day" className="ml-2">All Day</Label>
+                    <Switch 
+                      id="All Day"
+                      checked={eventAllDay}
+                      onCheckedChange={() => setEventAllDay(!eventAllDay)}/>
+                  </div>
+                  <Textarea 
+                    placeholder={eventDesc} 
+                    className="mt-2 mb-2 text-black font-normal"
+                    onChange={(e) => setEventDesc(e.target.value)}/>
+                  {!eventName && (
+                    <Button disabled variant="blue" onClick={() => newEvent()}>Add Event</Button>
+                  )}
+                  {eventName && (
+                    <Button variant="blue" onClick={() => newEvent()}>Add Event</Button>
+                  )}
                 </div>
               </PopoverContent>
             </Popover>
@@ -110,7 +155,7 @@ const CalendarPage = () => {
         }
       }
       rows.push(
-        <div key={i} className="flex flex-1 max-h-[calc((100vh)/7)] h-full overflow-y-hidden">
+        <div key={i} className="flex flex-1 max-h-[calc((100vh)/6)] h-full overflow-y-hidden">
           {days}
         </div>
       );

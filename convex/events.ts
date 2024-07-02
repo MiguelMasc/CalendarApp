@@ -42,10 +42,12 @@ export const getByDay = query({
 export const create = mutation({
   args: {
     name: v.string(),
-    parentCalendar: v.optional(v.id("calendar")),
+    parentCalendar: v.optional(v.id("calendars")),
     date: v.string(),
     desc: v.optional(v.string()),
-    hours: v.string(),
+    time: v.optional(v.string()),
+    allDay: v.boolean(),
+    location: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
@@ -60,7 +62,9 @@ export const create = mutation({
       desc: args.desc,
       userId,
       date: args.date,
-      hours: args.hours,
+      time: args.time,
+      allDay: args.allDay,
+      location: args.location,
     });
 
     return event;
