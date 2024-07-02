@@ -5,7 +5,6 @@ import { useConvexAuth } from "convex/react";
 import { redirect } from "next/navigation";
 import Navigation from "./_components/navigation";
 import TopBar from "./_components/topbar";
-import { useState } from "react";
 import { CalendarProvider } from "./(context)/calendarContext";
 
 
@@ -28,13 +27,15 @@ const MainLayout = ({
   if (!isAuthenticated) {
     return redirect("/")
   }
+
+
   return ( 
     <CalendarProvider>
       <div className="h-screen">
         <TopBar />
-        <div className="flex">
-          <main className="flex overflow-y-hidden w-full border">
-            {/* <Navigation /> */}
+        <div className="flex h-full">
+          <Navigation />
+          <main className="flex overflow-y-hidden max-w-screen flex-grow">        
             {children}
           </main>
         </div>
