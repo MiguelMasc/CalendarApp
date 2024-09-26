@@ -10,8 +10,6 @@ interface CalendarContextType {
   setIsNavCollapsed: (isIt: boolean) => void;
   viewMode: string;
   setViewMode: (mode: string) => void;
-  openPopoverIndex: number;
-  setOpenPopoverIndex: (index: number) => void;
   eventName: string; 
   setEventName: (name: string) => void;
   eventLocation: string; 
@@ -32,11 +30,9 @@ export const CalendarProvider: React.FC<{ children: ReactNode }> = ({ children }
   const [viewDate, setViewDate] = useState(new Date());
   const [viewMode, setViewMode] = useState("Month");
 
-  const [openPopoverIndex, setOpenPopoverIndex] = useState(-1);
-
   const [eventName, setEventName] = useState("");
   const [eventLocation, setEventLocation] = useState("");
-  const [eventDesc, setEventDesc] = useState("Notes");
+  const [eventDesc, setEventDesc] = useState("");
   const [eventDate, setEventDate] = useState("");
   const [eventAllDay, setEventAllDay] = useState(true);
 
@@ -50,8 +46,6 @@ export const CalendarProvider: React.FC<{ children: ReactNode }> = ({ children }
       setIsNavCollapsed,
       viewMode,
       setViewMode,
-      openPopoverIndex, 
-      setOpenPopoverIndex,
       eventName, 
       setEventName,
       eventLocation, 

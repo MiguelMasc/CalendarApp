@@ -12,7 +12,8 @@ import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 
 import weekDays from "../../_components/weekdays";
-import EventPopover from "../../_components/eventpopover";
+// import EventPopover from "../../_components/eventpopover";
+import DayGrid from "../../_components/dayGrid";
 import { Divide } from "lucide-react";
 
 
@@ -50,7 +51,7 @@ const CalendarPage = () => {
         if (date) {
           const events = GetDayEvents(date);
           days.push( 
-              <EventPopover             
+              <DayGrid            
                 key={date.toString()}
                 date={date}
                 index={index}

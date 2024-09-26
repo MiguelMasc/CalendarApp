@@ -34,9 +34,11 @@ const Navigation = () => {
               }
             }}
           />
-          {calendars?.map((calendar) => (
-              <div key={calendar._id} className="rounded-md text-background m-1 bg-blue-700 dark:bg-blue-300 shadow-md">{calendar.name}</div>
-              ))}
+          <div className="m-2">
+            {calendars?.map((calendar) => (
+                <div key={calendar._id} className="rounded-md text-background m-1 bg-blue-700 dark:bg-blue-300 shadow-md text-center">{calendar.name}</div>
+                ))}
+          </div>
         </div>
       )}
     </>
